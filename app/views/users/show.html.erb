@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	
+</head>
+<body>
+<% if user_signed_in= %>
+	<h2> Welcome <%= current_user.name %> </h2>
+	<% else %>
+	<h3> Nobody logged in </h3>
+<% end %>
+<p> <%= current_user.name %> </p>
+<p> <%= current_user.email %> </p>
+<div>Bands you like<div>
+<ul>
+	<% @user_bands.each do |band| %>
+	<li> <%= link_to band.name, user_bands_path(current_user) %> </li>
+	<% end %>
+</ul>
+<form class="js-form">
+<input type="text" class="js-artist">
+<button type="submit" class="js-submit">Search</button>
+</form>
+<h4>Artist title:</h4>
+<div class="js-artist-name">
+</div>
+<h4>Artist ID:</h4>
+<div class="js-artist-id">
+</div>
+<div class="js-artist-nextdates">
+</div>
+<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+</body>
+</html>
