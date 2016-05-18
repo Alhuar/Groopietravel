@@ -55,13 +55,13 @@ ActiveRecord::Schema.define(version: 20160518094526) do
 
   create_table "users_bands", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "concert_id"
+    t.integer  "band_id"
     t.boolean  "is_favorite", default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
 
-  add_index "users_bands", ["concert_id"], name: "index_users_bands_on_concert_id", using: :btree
+  add_index "users_bands", ["band_id"], name: "index_users_bands_on_band_id", using: :btree
   add_index "users_bands", ["user_id"], name: "index_users_bands_on_user_id", using: :btree
 
 end
