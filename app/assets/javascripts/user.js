@@ -1,15 +1,32 @@
 console.log('Works fine')
 // var testUrl = 'http://api.bandsintown.com/artists/Skrillex/events.json?api_version=2.0&app_id=Groopietravel'
 var ENDPOINT = "http://api.songkick.com/api/3.0/search/artists.json?query="
-var finalEndpoint = "&apikey=Nvz5ypKtb8V40c3S";
+var finalEndpoint = "&apikey=Nvz5ypKtb8V40c3S"
 var artistResponse = {
 	name: "",
-	id : "",
+	id: "",
 	events : []
 };
 artistResponse.events = [];
 var calendarEndpoint = "http://api.songkick.com/api/3.0/artists/"
 var finalCalendarEndpoint = "/calendar.json?apikey=Nvz5ypKtb8V40c3S"
+
+
+function searchArtistInDatabase(bandName){
+	$.ajax({
+		type: 'POST',
+		url: '/api/v1/bands/search',
+		data: {
+			'band' : bandName
+		},
+		success: function(r){
+			if (r.hasOwnProperty('error')){
+				searchArtistEvents(r.band)
+			}
+		}
+	})
+};
+
 
 function searchArtistEvents(artist) {
 	
@@ -20,6 +37,8 @@ function searchArtistEvents(artist) {
 		error: responseError
 	})
 };
+
+
 
 function responseHandler(response){
 	var artistName = response.resultsPage.results.artist[0].displayName;
@@ -67,7 +86,8 @@ function responseError(){
 $(document).ready(function(){
 	$('.js-form').on('submit', function(event){
 		event.preventDefault();
-		var artist = $('.js-artist').val();	
-		searchArtistEvents(artist);
+		var artist = $('.js-artist').val();
+		searchArtistInDatabase(artist);	
+		//searchArtistEvents(artist);
 	})
 });
