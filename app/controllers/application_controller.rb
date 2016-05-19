@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
   unless Rails.env.development?
   	protect_from_forgery with: :exception
   end
-
+  
+  before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
-  #before_action :authenticate_user!
 
 protected
 	def configure_permitted_parameters
