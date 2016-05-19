@@ -1,12 +1,20 @@
 Rails.application.routes.draw do
   devise_for :users
-  root "users#show"
+  root "users#index"
 
   resources :users, only: [:show, :index] do
     resources :bands do
-      resources :concerts
+      resources :concerts, only: :index
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :bands, except: [:new, :edit]
+        post "bands/search", to: "bands#search"
+    end
+  end
+
   #get '/users/:id', to: "users#show"
 
   # The priority is based upon order of creation: first created -> highest priority.
