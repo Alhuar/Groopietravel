@@ -7,8 +7,16 @@ class UsersController < ApplicationController
 	def show
 		@user = current_user
 		@user_bands = @user.bands
-		@band = Band.new
+		id_array =  UsersBand.where(user_id: current_user.id, is_favorite: true).pluck(:band_id)
+		@user_favorite_bands = [] 
+		id_array.each do |id|
+			@user_favorite_bands << Band.find(id)
+		end
+
+		# binding.pry
 	end
+
+
 
 private
 
