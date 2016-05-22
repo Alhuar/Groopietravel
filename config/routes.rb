@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :bands, except: [:new, :edit]
         post "bands/search", to: "bands#search"
+        post "bands/favorite_band", to: "bands#favorite_band"
     end
   end
 
