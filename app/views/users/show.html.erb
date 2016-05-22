@@ -8,30 +8,46 @@
 </head>
 <body>
 <% if user_signed_in= %>
-	<h2> Welcome <%= current_user.name %> </h2>
+	<h2> Welcome again <%= current_user.name %> </h2>
 	<% else %>
 	<h3> Nobody logged in </h3>
 <% end %>
-<p> <%= current_user.name %> </p>
-<p> <%= current_user.email %> </p>
-<div>Bands you like<div>
+<p>Your current user email is: <%= current_user.email %> </p>
+<div>Bands you like</div>
 <ul>
-	<% @user_bands.each do |band| %>
-	<li> <%= link_to band.name, user_bands_path(current_user) %> </li>
+	<% @user_favorite_bands.each do |band| %>
+	<li><a href="<%= user_band_path(current_user, band.id) %>"> 
+		<%=  band.name %> </a> 
+	</li>
+		
 	<% end %>
 </ul>
+
+
+<h5>Antiguo form</h5>
 <form class="js-form">
-<input type="text" class="js-artist">
-<button type="submit" class="js-submit">Search</button>
+	<input type="text" class="js-artist">
+	<button type="submit" class="js-submit">Search</button>
 </form>
-<h4>Artist title:</h4>
+<h3>Band Name</h3>
 <div class="js-artist-name">
+<ul> 
+	<li>  </li>
+</ul>
 </div>
-<h4>Artist ID:</h4>
-<div class="js-artist-id">
+</br>
+</br>
+<h4>On tour until:</h4>
+<div class="js-artist-ontour">
 </div>
-<div class="js-artist-nextdates">
+<div class="columns">
+		<div class="column">
+		<div class="js-artist-id">
+		</div>
+		<div class="js-artist-nextdates">
+		</div>
+	</div>
 </div>
-<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+<%= link_to "Sign out", destroy_user_session_path, method: 'DELETE' %>
 </body>
 </html>
