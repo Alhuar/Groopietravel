@@ -19,21 +19,34 @@ function searchArtistInDatabase(bandName){
 			'band' : bandName
 		},
 		success: function(r){
-			 debugger
 			if (r.hasOwnProperty('error')){
-				searchArtistEvents(r.band)
+				searForArtist(r.band)
 			} else if(r.hasOwnProperty('success')){
-				$('.js-artist-name ul').append('<li>'+ r.band.name + '<button id='+ r.band.id + '>Favorite</button></li>')
+				$('.js-artist-name ul').append('<li>'+ r.band.name + '<button class="js-favorite" id='+ r.band.id + '>Favorite</button></li>')
 				$('.js-artist-ontour').append('<p>'+ r.band.on_tour_until + '</p>')
 				// $.each(r.band, function(key, value) {
 				//    $('.js-artist-name ul').append('<li>'+key+': '+value+'</li>');
 				// });
-				
 			}
+
+			$('.js-favorite').on('click', function(event){
+				event.preventDefault();
+				var id = $(this).attr('id');
+				$.ajax({
+					url: '/api/v1/bands/favorite_band',
+					type: 'POST',
+					data: {
+					'id' : id
+					},
+					success: function(r){
+						console.log("Yeeeeeeeepaaaaaaa MADAFAKA")
+					}
+				})
+			})
 		}
 	})
 };
-function searchArtistEvents(artist) {	
+function searForArtist(artist) {	
 	$.ajax({
 		type: "GET",
 		url: ENDPOINT + artist + finalEndpoint,
@@ -64,9 +77,6 @@ function responseHandler(response){
 function getTourDates(response){
 	
 	var artistEvents = response.resultsPage.results.event
-	 //console.log(artistEvents);
-	 // console.log(artistEvents[0].location.city)
-	 // console.log(artistEvents.length)
 	$(".js-artist-nextdates").empty()
 	for (var i = 0; i < artistEvents.length; i++){
 			//createListArtistEvent(artistEvents[i].location.city);
@@ -89,6 +99,7 @@ function getTourDates(response){
 		}
 	});
 };
+
 // function createListArtistEvent(event){
 // 	$(".js-artist-nextdates").append("<li> City: " + event + ", Date: ") // + //event.start.date + "</li>")
 // };
@@ -101,4 +112,9 @@ $(document).ready(function(){
 		var artist = $('.js-artist').val();
 		searchArtistInDatabase(artist);	
 	})
-});
+	
+		// debugger
+	});
+
+
+
