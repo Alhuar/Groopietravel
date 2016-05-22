@@ -4,8 +4,10 @@ class CreateConcerts < ActiveRecord::Migration
       t.references :band
       t.string :name
       t.string :date
-      t.string :place_name
-      t.string :place_location
+      t.string :city
+      t.string :venue
+      t.string :latitude
+      t.string :longitude
       t.timestamps null: false
     end
   end
