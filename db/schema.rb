@@ -18,20 +18,21 @@ ActiveRecord::Schema.define(version: 20160518094526) do
 
   create_table "bands", force: :cascade do |t|
     t.string   "name"
-    t.string   "image"
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "on_tour_until"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "concerts", force: :cascade do |t|
     t.integer  "band_id"
     t.string   "name"
     t.string   "date"
-    t.string   "place_name"
-    t.string   "place_location"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.string   "city"
+    t.string   "venue"
+    t.string   "latitude"
+    t.string   "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
