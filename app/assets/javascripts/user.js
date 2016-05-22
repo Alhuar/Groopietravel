@@ -4,6 +4,7 @@ var finalEndpoint = "&apikey=Nvz5ypKtb8V40c3S"
 var artistResponse = {
 	artistName: "",
 	id: "",
+	// onTourUntil: "",
 	events : []
 };
 artistResponse.events = [];
@@ -18,12 +19,15 @@ function searchArtistInDatabase(bandName){
 			'band' : bandName
 		},
 		success: function(r){
+			 debugger
 			if (r.hasOwnProperty('error')){
 				searchArtistEvents(r.band)
 			} else if(r.hasOwnProperty('success')){
-				$.each(r.band, function(key, value) {
-				   $('.js-artist-name ul').append('<li>'+key+': '+value+'</li>');
-				});
+				$('.js-artist-name ul').append('<li>'+ r.band.name + '<button id='+ r.band.id + '>Favorite</button></li>')
+				$('.js-artist-ontour').append('<p>'+ r.band.on_tour_until + '</p>')
+				// $.each(r.band, function(key, value) {
+				//    $('.js-artist-name ul').append('<li>'+key+': '+value+'</li>');
+				// });
 				
 			}
 		}
@@ -43,6 +47,7 @@ function responseHandler(response){
 	var artistId = response.resultsPage.results.artist[0].id
 	artistResponse.artistName = artistName;
 	artistResponse.id = artistId;
+	artistResponse.onTourUntil = response.resultsPage.results.artist[0].onTourUntil
 	$('.js-artist-name').empty();
 	$('.js-artist-id').empty();
 	 $('.js-artist-name').append(artistName);
@@ -57,6 +62,7 @@ function responseHandler(response){
 };
 
 function getTourDates(response){
+	
 	var artistEvents = response.resultsPage.results.event
 	 //console.log(artistEvents);
 	 // console.log(artistEvents[0].location.city)
@@ -69,7 +75,8 @@ function getTourDates(response){
 				date: artistEvents[i].start.date,
 				lat: artistEvents[i].location.lat,
 				lng: artistEvents[i].location.lng,
-				name: artistEvents[i].displayName
+				name: artistEvents[i].displayName,
+				venue: artistEvents[i].venue.displayName
 			});
 			$(".js-artist-nextdates").append("<li> City: " + artistEvents[i].location.city + ", Date: " + artistEvents[i].start.date + "</li>")
 	};
