@@ -7,7 +7,6 @@ var artistResponse = {
 	// onTourUntil: "",
 	events : []
 };
-artistResponse.events = [];
 var calendarEndpoint = "http://api.songkick.com/api/3.0/artists/"
 var finalCalendarEndpoint = "/calendar.json?apikey=Nvz5ypKtb8V40c3S"
 
@@ -29,23 +28,24 @@ function searchArtistInDatabase(bandName){
 				// });
 			}
 
-			$('.js-favorite').on('click', function(event){
-				event.preventDefault();
-				var id = $(this).attr('id');
-				$.ajax({
-					url: '/api/v1/bands/favorite_band',
-					type: 'POST',
-					data: {
-					'id' : id
-					},
-					success: function(r){
-						console.log("Yeeeeeeeepaaaaaaa MADAFAKA")
-					}
-				})
-			})
 		}
 	})
 };
+function favBand(id){
+	
+	$.ajax({
+		url: '/api/v1/bands/favorite_band',
+		type: 'POST',
+		data: {
+		'id' : id
+		},
+		success: function(r){
+			console.log("Yeeeeeeeepaaaaaaa MADAFAKA")
+		}
+	});
+}
+
+
 function searForArtist(artist) {	
 	$.ajax({
 		type: "GET",
@@ -63,7 +63,7 @@ function responseHandler(response){
 	artistResponse.onTourUntil = response.resultsPage.results.artist[0].onTourUntil
 	$('.js-artist-name').empty();
 	$('.js-artist-id').empty();
-	 $('.js-artist-name').append(artistName);
+	 $('.js-artist-name').append('<p>' + artistName + '</p>') //' '<button class="js-favorite" id='+ artist);
 	// $('.js-artist-id').append(artistId);
 	$.ajax({
 		type: "GET",
@@ -112,9 +112,13 @@ $(document).ready(function(){
 		var artist = $('.js-artist').val();
 		searchArtistInDatabase(artist);	
 	})
-	
+	$('.js-artist-name').on('click', '.js-favorite', function(event){
+		event.preventDefault();
+		var id = $(this).attr('id');
+		favBand(id);
+	});	
 		// debugger
-	});
+});
 
 
 
