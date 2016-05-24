@@ -1,22 +1,28 @@
 class UsersController < ApplicationController
+	include Geokit::Geocoders
 
 	def index
 		@users = User.all
 	end
 	
 	def show
-		@user = current_user
-		@user_bands = @user.bands
-		id_array =  UsersBand.where(user_id: current_user.id, is_favorite: true).pluck(:band_id)
+		bands_ids_array =  UsersBand.where(user_id: current_user.id, is_favorite: true).pluck(:band_id)
 		@user_favorite_bands = [] 
-		id_array.each do |id|
-			@user_favorite_bands << Band.find(id)
+		bands_ids_array.each do |id|
+			 @user_favorite_bands << Band.find(id)
+			end		
+	 	@user_concerts = []
+	 	@user_favorite_bands.each do |band|
+	 		band.concerts.each do |concert|
+	 			@user_concerts.push(concert)
+	 		end
 		end
+		# @users_concerts.each do |concert|
+		 binding.pry
 
-		# binding.pry
+		#end
+
 	end
-
-
 
 private
 
