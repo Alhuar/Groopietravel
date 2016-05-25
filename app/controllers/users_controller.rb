@@ -18,10 +18,19 @@ class UsersController < ApplicationController
 	 		end
 		end
 		# @users_concerts.each do |concert|
-		 binding.pry
+		 # binding.pry
+		matches = Array.new
+		for i in (0..@user_concerts.length) do 
+			for j in (i+1..@user_concerts.length-1) do
+				if @user_concerts[i].city == @user_concerts[j].city && @user_concerts[i].date == @user_concerts[j].date
+					matches.push(@user_concerts[i])
+					matches.push(@user_concerts[j])
+				end
+			end
+		end
 
-		#end
-
+	  
+	  # binding.pry
 	end
 
 private
