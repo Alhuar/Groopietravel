@@ -1,10 +1,6 @@
 class Api::V1::BandsController < ApplicationController
 	def index
-		# user = User.find(params[:user_id])
-		# #@user_bands = Band.where("user_id = ?", @user.id)
-		# @bands = current_user.bands
 		render plain: "Hello"
-
 	end
 	
 	def show
@@ -19,9 +15,7 @@ class Api::V1::BandsController < ApplicationController
 			render json: {band: bandname, error: "not found"}
 			return
 		end
-		
 		render json: {success: true, band: @band}
-		#redirect_to users_path 
 	end
 
 	def create
@@ -29,13 +23,26 @@ class Api::V1::BandsController < ApplicationController
 			name: params[:artistName],
 			on_tour_until: params[:onTourUntil].to_date.strftime("%a %d %b %Y")
 		)
-		params['events'].each do |key, value|
-			date = value["date"].to_date.strftime("%a %d %b %Y")
-			city = value["city"]
-			latitude = value["lat"]
-			longitude = value["lng"]
-			name = value["name"]
-			venue = value["venue"]
+		
+		filtered_events = {}
+		
+		params['events'].each do |item|
+		  
+		  if filtered_events.has_key? item[1][:date]
+		    filtered_events[item[1][:date]].merge! item[1]
+		  else
+		    filtered_events[item[1][:date]] = item[1]
+		  end
+		end
+		my_array = filtered_events.collect { |key, value| value }
+		 # binding.pry
+		my_array.each do |item|
+			date = item["date"].to_date.strftime("%a %d %b %Y")
+			city = item["city"]
+			latitude = item["lat"].to_f
+			longitude = item["lng"].to_f
+			name = item["name"]
+			venue = item["venue"]
 			band.concerts.create(
 				date: date, 
 				city: city, 
@@ -45,17 +52,15 @@ class Api::V1::BandsController < ApplicationController
 				latitude: latitude
 				)
 		end
+
 		current_user.bands.push(band)
 		render json: band
 	end
 
 	def favorite_band
     band = Band.find(params[:id])
-    @query = UsersBand.find_by(user: current_user, band: band)
-    Band.check_if_query_exists?(query, current_user, band)
-    # query = UsersBand.find_by(user_id: current_user.id, band_id: band.id)
-    #Y con esto: =>
-    query.update_attribute(:is_favorite, true) unless query.is_favorite
+    query = UsersBand.find_by(user: current_user, band: band) || Band.check_if_query_exists?(query, current_user, band)
+    Band.make_favorite(query)
 	  render json: band
 	end
 end
