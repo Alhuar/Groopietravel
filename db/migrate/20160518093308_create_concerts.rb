@@ -6,8 +6,8 @@ class CreateConcerts < ActiveRecord::Migration
       t.string :date
       t.string :city
       t.string :venue
-      t.string :latitude
-      t.string :longitude
+      t.float :latitude
+      t.float :longitude
       t.timestamps null: false
     end
   end
