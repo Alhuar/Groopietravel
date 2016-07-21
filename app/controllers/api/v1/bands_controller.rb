@@ -8,9 +8,26 @@ class Api::V1::BandsController < ApplicationController
 	end
 
 	def search
+		## ## 
 		bandname = params[:band].downcase.titleize
+		## ##
 		@band = Band.find_by(name: bandname)
+		#insertar llamada a la api de songkick desde aquí y quitarla del front
+		#=====================================================================
+		binding.pry
 		unless @band
+			conn = Faraday.new(:url => 'http://sushi.com') do |faraday|
+  faraday.request  :url_encoded             
+  faraday.response :logger                  
+  faraday.adapter  Faraday.default_adapter  
+end
+
+
+
+
+
+
+
 			render json: {band: bandname, error: "not found"}
 			return
 		end
@@ -22,8 +39,9 @@ class Api::V1::BandsController < ApplicationController
 			name: params[:artistName],
 			on_tour_until: params[:onTourUntil].to_date.strftime("%a %d %b %Y")
 		)
-		band.save_concerts(params['events'])
-		current_user.bands.push(band)
+		concerts = params['events']
+		band.save_concerts(concerts)
+		current_user.add_band(band)
 		render json: band
 	end
 
