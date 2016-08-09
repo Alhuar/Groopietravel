@@ -1,16 +1,27 @@
 Rails.application.routes.draw do
-  devise_for :users
-  root "users#index"
+  get "/", to: "site#index"
+  
+  authenticated :user do
+    root to: 'users#show' 
+  end
 
-  resources :users, only: [:show, :index] do
-    resources :bands do
-      resources :concerts, only: :index
+  devise_for :users do
+    get 'users/:id', to: 'users#show'
+  end
+  
+
+  resources :users, only: [:show] do
+    resources :bands,  only: :show do
+      resources :concerts, only: [:index, :show]
     end
   end
+
+  
 
   namespace :api do
     namespace :v1 do
       resources :bands, except: [:new, :edit]
+        patch "bands/unfavorite/:id", to: "bands#unfavorite"
         post "bands/search", to: "bands#search"
         post "bands/favorite_band", to: "bands#favorite_band"
     end
