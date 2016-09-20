@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   get "/", to: "site#index"
-  
+
   authenticated :user do
-    root to: 'users#show' 
+    root to: 'users#show'
   end
 
   devise_for :users do
     get 'users/:id', to: 'users#show'
   end
-  
+
 
   resources :users, only: [:show] do
     resources :bands,  only: :show do
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     end
   end
 
-  
+
 
   namespace :api do
     namespace :v1 do

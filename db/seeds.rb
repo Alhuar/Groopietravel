@@ -32,8 +32,11 @@ Concert.create([
 =end
 
 
-# Band.create([
-# 	#{name: 'El Páramo', image: "some image", description: "Best trash band ever"},
+ Band.create([
+ 	{name: "El Páramo", on_tour_until: "Sat 20 Aug 2016"},
+    {name: "Muse", on_tour_until: "Fri 16 Sep 2016"},
+    {name: "Air", on_tour_until: "Thu 15 Sep 2016"}])
+
 # 	{name: 'Thrice', image: "some image", description: "They are back"},
 # 	#{name: 'Bonobo', image: "some image", description: "Good trip hop"},
 # 	{name: 'Bon Iver', image: "some image", description: "Eclectic"}
@@ -44,6 +47,21 @@ User.create([
 	{name: "pepe", email: "pepe@pepe.com", password: "123456"}
 	])
 	
+Band.first.concerts.create([
+ {name: "El Páramo con Toundra", date: "Sat, 20 Aug 2016", city: "Madrid, Spain",venue: "La Riviera", latitude: 44.9714007, longitude: -93.2545014},
+ {name: "El Páramo con Adrift en acústico", date: "Sun, 21 Aug 2016", city: "Barcelona, Spain",venue: "La Riviera", latitude: 43.9764007, longitude: -90.2545014}
+ ])
+
+Band.second.concerts.create([
+ {name: "Muse, Interpol and Bon Iver", date: "Sat, 20 Aug 2016", city: "Madrid, Spain",venue: "Vicente Calderón Stadium", latitude: 44.9714007, longitude: -93.2545014},
+ {name: "Muse with Interpol final tour show", date: "Mon, 22 Aug 2016", city: "London, UK", venue: "Cyber Dog Arena", latitude: 41.9714007, longitude: -89.2545014}
+ ])
+
+User.first.bands.push(Band.first)
+User.first.bands.push(Band.second)
+UsersBand.first.update_attribute(:is_favorite, true)
+UsersBand.second.update_attribute(:is_favorite, true)
+
 # # Band.first.concerts.create([
 # # 	{name: 'El Páramo', date: "2016-11-07 14:40:18 +0200", place_name: 'Riviera', place_location: 'Madrid'},
 # # 	{name: 'El Páramo', date: "2016-11-08 14:40:18 +0200", place_name: 'Razzmatazz', place_location: 'Barna'},

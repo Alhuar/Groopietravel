@@ -4,7 +4,6 @@ var finalEndpoint = "&apikey=Nvz5ypKtb8V40c3S"
 var artistResponse = {
 	artistName: "",
 	id: "",
-	// onTourUntil: "",
 	events : []
 };
 var calendarEndpoint = "http://api.songkick.com/api/3.0/artists/"
@@ -42,6 +41,10 @@ function favBand(id){
 		}
 	});
 }
+//============================================================
+// BUSCA ARTISTA EN SONGKICK
+//============================================================
+
 function searchForArtist(artist) {	
 	$.ajax({
 		type: "GET",
@@ -50,6 +53,10 @@ function searchForArtist(artist) {
 		error: responseError
 	})
 };
+
+//============================================================
+// BUSCA LOS CONCIERTOS DE UN ARTISTA CON SU ID 
+//============================================================
 function responseHandler(response){ 
 	var artistName = response.resultsPage.results.artist[0].displayName;
 	var artistId = response.resultsPage.results.artist[0].id
@@ -111,10 +118,7 @@ function unfavoritize(id){
 function handleUnfavoriteResponse(response){
 	console.log("UnFavorited in Database!");
 	//$('.no-favorite').val("Unfavorited!")
-
-
 }
-
 
 function responseError(){
 	alert("Error on Request")

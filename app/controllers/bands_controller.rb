@@ -15,6 +15,6 @@ class BandsController < ApplicationController
 		@distance = a.distance_to(b)
 		@city1 = @band.concerts[0].city
 		@city2 = @band.concerts[1].city
-		#@all_concerts = current_user.concerts_count
+		# binding.pry
 	end
 end

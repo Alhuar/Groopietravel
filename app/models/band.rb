@@ -1,7 +1,9 @@
 class Band < ActiveRecord::Base
+
+	# include Modules::Concert_storer
 	has_many :users, :through => :users_band
-	has_many :users_band
-	has_many :concerts
+	has_many :users_band, dependent: :destroy
+	has_many :concerts, dependent: :destroy
 	validates :name, presence: true	
 	validates :on_tour_until, presence: true
 	# validates :description, presence: true
@@ -22,34 +24,37 @@ class Band < ActiveRecord::Base
 	end
 
 	def save_concerts(events)
-		filtered_events = {}
-		events.each do |item|  
-		  if filtered_events.has_key? item[1][:date]
-		    filtered_events[item[1][:date]].merge! item[1]
-		  else
-		    filtered_events[item[1][:date]] = item[1]
-		  end
+		events.uniq{|concert| concert[:date] }
+		events.each do |event1| 
+			events.each do |event2|
+				if event1[:date] == event2[:date]
+					event1.merge!(event2)
+				end
+			end
 		end
-		my_array = filtered_events.collect { |key, value| value }
-		my_array.each do |item|
-			date = item["date"].to_date.strftime("%a %d %b %Y")
-			city = item["city"]
-			latitude = item["lat"].to_f
-			longitude = item["lng"].to_f
-			name = item["name"]
-			venue = item["venue"]
+		# binding.pry
+		events.each do |event|
 			self.concerts.create(
-				date: date, 
-				city: city, 
-				name: name, 
-				venue: venue, 
-				longitude: longitude, 
-				latitude: latitude
-			)
+				date: event[:date].to_date.strftime("%a %d %b %Y"), 
+				city: event[:city], 
+				name: event[:name], 
+				venue: event[:venue], 
+				longitude: event[:lng].to_f, 
+				latitude: event[:lat].to_f)
 		end
 
 	end
 
 end
 
+
+# filtered_events = {}
+# 		binding.pry
+# 		events.each do |item|  
+# 		  if filtered_events.has_key? item[1]['date']
+# 		    filtered_events[item[1]['date']].merge! item[1]
+# 		  else
+# 		    filtered_events[item[1]['date']] = item[1]
+# 		  end
+# 		end
 

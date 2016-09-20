@@ -1,3 +1,9 @@
 <h4>Band landing page </h4>
 <p> <%= @band.name %> </p>
-<p>Y lo que tú quieras</p>
+<p> Distance between A: <%= @city1 %>,  and B <%= @city2 %>, is <%= @distance %>kms.</p>
+	<% @band.concerts.each do |concert| %>
+	<li> <%=  link_to "#{concert.city}, the #{concert.date}", user_band_concert_path(current_user, @band, concert) %> </li>
+	<% end %>
+</ul>
+</div>
+</div>

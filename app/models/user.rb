@@ -13,4 +13,29 @@ validates :name,  presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
+
+
+
+
+	def calculate_distance(a,b)
+		a.distance_to(b)
+	end
+
+  def self.user_favorite_bands(array)
+    array.map do |id|
+         Band.find(id)
+      end
+
+  end
+
+  def self.favorite_bands(array)
+      @user_favorite_bands = array.map do |id|
+         Band.find_by(id: id)
+      end
+      @user_favorite_bands   
+  end
+
+  def add_band(band)
+    self.bands.push(band)
+  end
 end

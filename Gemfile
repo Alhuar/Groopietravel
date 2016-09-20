@@ -10,6 +10,7 @@ gem 'bulma-rails', '~> 0.0.26'
 gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
+gem 'faraday_middleware'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -21,6 +22,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'rails_12factor', group: :production   
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'httparty'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.

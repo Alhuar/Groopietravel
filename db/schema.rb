@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20160518094526) do
   create_table "concerts", force: :cascade do |t|
     t.integer  "band_id"
     t.string   "name"
-    t.string   "date"
+    t.date     "date"
     t.string   "city"
     t.string   "venue"
     t.float    "latitude"

@@ -1,53 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Test</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-	
-</head>
-<body>
-<% if user_signed_in= %>
-	<h2> Welcome again <%= current_user.name %> </h2>
-	<% else %>
-	<h3> Nobody logged in </h3>
-<% end %>
-<p>Your current user email is: <%= current_user.email %> </p>
-<div>Bands you like</div>
-<ul>
-	<% @user_favorite_bands.each do |band| %>
-	<li><a href="<%= user_band_path(current_user, band.id) %>"> 
-		<%=  band.name %> </a> 
-	</li>
-		
-	<% end %>
-</ul>
+<nav class="nav">
+<nav class="nav-center">
+  <!-- Left side -->
+
+    <div class="navbar-item">
+      <p class="title is-3 is-text-bold">
+        <%=current_user.name %> 
+      </p>
+    </div>
+  </nav>
+  <nav class="nav-right">
+  <%= link_to "Sign out", destroy_user_session_path, method: 'DELETE' %>
+  </nav>
+  </nav>
+  <div class="columns is-dark">
+    <div class="column is-two-thirds">
+      <section class="section">
+        <!-- <div class="columns is-wrap"> -->
+          <div class="favorite-bands">
+          <% @user_favorite_bands.each do |band| %>
+            <div class="card">
+						  <div class="card-image">
+						    <figure class="image is-4by3">
+						      <img src="/concert.jpeg" alt="band-image">
+						    </figure>
+						 		</div>
+						  	<div class="card-content">
+						    	<div class="media">
+						      	<div class="media-content">
+						        <p class="title is-5"><%= link_to band.name, user_band_path(current_user, band) %></p>
+						      	<p class="subtitle is-7">Tour end: <%= band.on_tour_until %> </p>
+						      	</div>
+						    	</div>
+							    <div class="content">
+							      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							      Phasellus nec iaculis mauris.      
+							    </div>
+							    <button type="submit" class="no-favorite" id="<%= band.id %>">Unfavorite</button>
+						  </div>
+						  <% end %>
+					</div>
+         <%  %>
+         </div>
+         <div class="column is-6">
+				<% if @concert_matches != nil %>	
+				<p>HEY! There was a match. Look at this!</p>
+			<ul>
+				<%	@concert_matches.each do |concert|	%>	
+				<li> <%= "#{concert.name}, on #{concert.date} in #{concert.city}" %> 
+				</li>
+				<% end %>
+			</ul>
+			<% end %>
+         </div>
+       <!-- </div> -->
+     </section>
+     </div>
+      <!-- <div class="column is-4"> -->
+		    <div class="column is-one-third">
+		    <section class="hero is-medium is-dark is-bold">
+					<div class="hero-body">
+    				<div class="container">
+      				<h3 class="title">
+       					Search for your favorite bands/artists</h3>
+									<form class="js-form">
+										<input type="text" class="js-artist">
+										<button type="submit" class="js-submit">Search</button>
+									</form>
+							<div class="js-artist-name">
+							</div>
+							<p class="js-artist-ontour">On tour Until:</p>
+					 </div>
+  				</div>
+				</section>
+		      </div>
+    		</div>
+    		<div class="columns is-mobile">
+				<div class="columns is-6">
+				</div>
+				<div class="columns is-6">
+				</div>
+    		</div>
+    		<div class="container">
+				<ul class="js-artist-nextdates"> 
+					<li></li>
+				</ul>
+    		</div>
+  
+
+ 
 
 
-<h5>Antiguo form</h5>
-<form class="js-form">
-	<input type="text" class="js-artist">
-	<button type="submit" class="js-submit">Search</button>
-</form>
-<h3>Band Name</h3>
-<div class="js-artist-name">
-<ul> 
-	<li>  </li>
-</ul>
-</div>
-</br>
-</br>
-<h4>On tour until:</h4>
-<div class="js-artist-ontour">
-</div>
-<div class="columns">
-		<div class="column">
-		<div class="js-artist-id">
-		</div>
-		<div class="js-artist-nextdates">
-		</div>
-	</div>
-</div>
+
+
+
 <%= link_to "Sign out", destroy_user_session_path, method: 'DELETE' %>
-</body>
-</html>

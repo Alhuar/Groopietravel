@@ -1,33 +1,45 @@
-<h2>Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+<section class="hero is-medium is-dark is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <h2 class="title is-text-centered">Sign up</h2>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
+    <div class="field">
+      <%= f.label :name, class:"title is-3 has-text-centered" %><br />
+      <%= f.text_field :name, autofocus: true, class: "input is-margin-bottom" %>
+    </div>
+    <div class="field">
+      <%= f.label :email, class: "title is-3 has-text-centered" %><br />
+      <%= f.email_field :email, autofocus: true, class: "input is-margin-bottom" %>
+    </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
+    <div class="field">
+      <%= f.label :password, class: "title is-3 has-text-centered" %>
+      <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %><br />
+      <%= f.password_field :password, autocomplete: "off",class: "input is-margin-bottom" %>
+    </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
+    <div class="field">
+      <%= f.label :password_confirmation, class: "title is-3 has-text-centered" %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "off", class: "input is-margin-bottom" %>
+    </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
+    <div class="actions">
+      <%= f.submit "Sign up", class: "button is-light is-fullwidth" %>
+    </div>
 <% end %>
+          </div>
+        </div>
+      </div>
+    <div class="column is-half is-offset-one-quarter">
+          <%= render "devise/shared/links" %>
+    </div>
+  </div> 
+</section>
 
-<%= render "devise/shared/links" %>
